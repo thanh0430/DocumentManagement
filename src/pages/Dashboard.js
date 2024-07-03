@@ -1,7 +1,7 @@
 import React from 'react'
-import DashboardStatsGrid from '../components/DashboardStatsGrid'
-import TransactionChart from '../components/TransactionChart'
-import BuyerProfilePieChart from '../components/BuyerProfilePieChart'
+import DashboardStatsGrid from '../components/statistics/DashboardStatsGrid'
+import TransactionChart from '../components/statistics/TransactionChart'
+import BuyerProfilePieChart from '../components/statistics/BuyerProfilePieChart'
 
 
 export default function Dashboard() {
