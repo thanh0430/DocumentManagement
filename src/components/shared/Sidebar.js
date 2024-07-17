@@ -15,7 +15,9 @@ export default function Sidebar() {
 				<FcBullish fontSize={20} />
 				<span className="text-neutral-200 text-sm">DocumentManagement</span>
 			</div>
-			<div className="py-8 flex flex-1 flex-col gap-0.5">
+			<hr/>
+			<div className='mt-10'><hr/></div>
+			<div className="py-10 flex flex-1 flex-col gap-0.5">
 				{DASHBOARD_SIDEBAR_LINKS.map((link) => (
 					<SidebarLink key={link.key} link={link} />
 				))}

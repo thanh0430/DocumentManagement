@@ -30,7 +30,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 	{
 		key: 'Docment',
 		label: 'Quản lý tài liệu',
-		path: '/Docment',
+		path: '/Document',
 		icon: <HiOutlineDocumentText />
 	},
 	{
