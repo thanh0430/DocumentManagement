@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react";
-import folderService from "../sevices/FolderService";
+import fileService from "../sevices/FileService";
 
-const useFolderService = (currentUserId) => {
-  const [folders, setFolders] = useState([]);
+const useFileService = (foldersId) => {
+  const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
 
   useEffect(() => {
-    if (currentUserId) {
-      fetchFolders(currentUserId);
+    if (foldersId) {
+      fetchFiles(foldersId);
     }
-  }, [currentUserId]);
+  }, [foldersId]);
 
-  const fetchFolders = async (userId) => {
+  const fetchFiles = async (foldersId) => {
     setLoading(true);
+    setError(null);
+    setMessage(null);
+
     try {
-      const response = await folderService.getFolders(userId);
+      const response = await fileService.getFiles(foldersId);
       if (response.statusCode === 200) {
-        setFolders(response.data);
+        setFiles(response.data);
+        setMessage(response.message);
       } else {
         setError(new Error(response.message));
       }
@@ -28,11 +32,10 @@ const useFolderService = (currentUserId) => {
       setLoading(false);
     }
   };
-
-  const createFolder = async (newFolder) => {
+  const createFile = async (newFolder) => {
     setLoading(true);
     try {
-      const result = await folderService.createFolder(newFolder);
+      const result = await fileService.createFile(newFolder);
       return result;
     } catch (err) {
       throw new Error("An unexpected error occurred");
@@ -40,10 +43,10 @@ const useFolderService = (currentUserId) => {
       setLoading(false);
     }
   };
-  const deleteFolder = async (folderId,currentUserId) => {
+  const deleteFile = async (folderId,currentUserId) => {
     setLoading(true);
     try {
-      const result = await folderService.deleteFolder(folderId, currentUserId);
+      const result = await fileService.deleteFile(folderId, currentUserId);
       return result;
     } catch (err) {
       throw new Error("An unexpected error occurred");
@@ -51,12 +54,12 @@ const useFolderService = (currentUserId) => {
       setLoading(false);
     }
   };
-  const searchFolders = async (userId) => {
+  const searchFiles = async (userId) => {
     setLoading(true);
     try {
-      const result = await folderService.searchFolder(userId);
+      const result = await fileService.searchFile(userId);
       if (result.statusCode === 200) {
-        setFolders(result.data);
+        setFiles(result.data);
       } else {
         setError(new Error(result.message));
       }
@@ -66,10 +69,10 @@ const useFolderService = (currentUserId) => {
       setLoading(false);
     }
   };
-  const editFolder = async (folderId, newName, currentUserId) => {
+  const editFile = async (folderId, newName, currentUserId) => {
     setLoading(true);
     try {
-      const result = await folderService.EditFolder(folderId, newName, currentUserId);
+      const result = await fileService.EditFile(folderId, newName, currentUserId);
       return result;
     } catch (err) {
       throw new Error("An unexpected error occurred");
@@ -77,10 +80,10 @@ const useFolderService = (currentUserId) => {
       setLoading(false);
     }
   };
-  const shareFolder = async (Search) => {
+  const shareFile = async (Search) => {
     setLoading(true);
     try {
-      const result = await folderService.shareFolder(Search);
+      const result = await fileService.shareFile(Search);
       return result;
     } catch (err) {
       throw new Error("An unexpected error occurred");
@@ -90,17 +93,17 @@ const useFolderService = (currentUserId) => {
   };
 
   return {
-    folders,
+    files,
     loading,
     error,
     message,
-    fetchFolders,
-    createFolder,
-    deleteFolder,
-    searchFolders,
-    editFolder,
-    shareFolder
+    fetchFiles,
+    createFile,
+    deleteFile,
+    searchFiles,
+    editFile,
+    shareFile
   };
 };
 
-export default useFolderService;
+export default useFileService;

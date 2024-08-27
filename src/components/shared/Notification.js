@@ -3,19 +3,19 @@ import withReactContent from 'sweetalert2-react-content';
 
 const MySwal = withReactContent(Swal);
 
-export const showAlert = () => {
+export const showAlert = (message) => {
   MySwal.fire({
     title: 'Thông báo',
-    text: 'Bạn đã thao tác thành công!',
+    text: message,
     icon: 'success',
     confirmButtonText: 'OK'
   });
 };
 
-export const showErrorAlert = () => {
+export const showErrorAlert = (message) => {
   MySwal.fire({
     title: 'Thao tác thất bại',
-    text: 'Đã có lỗi xảy ra, vui lòng thử lại.',
+    text: message,
     icon: 'error',
     confirmButtonText: 'OK'
   });
