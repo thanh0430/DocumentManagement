@@ -3,6 +3,8 @@ import Layout from './components/shared/Layout'
 import Dashboard from './pages/Dashboard'
 import FolderPage from './pages/FolderPage'
 import ViDu from './pages/ViDu'
+import ApprovalFlow from './pages/ApprovalFlow'
+import RequestApproval from './pages/RequestApproval'
 
 function App() {
     return (
@@ -12,6 +14,8 @@ function App() {
                     <Route index element={<Dashboard />} />
                     <Route path="/Document" element={<FolderPage />} />
                     <Route path="/chucvu" element={<ViDu />} />
+                    <Route path="/ApprovalFlow" element={<ApprovalFlow />} />
+                    <Route path="/RequestApproval" element={<RequestApproval />} />
                 </Route>             
             </Routes>
         </Router>

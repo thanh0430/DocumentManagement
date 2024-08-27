@@ -36,13 +36,13 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 	{
 		key: '',
 		label: 'Quản lý luồng phê duyệt',
-		path: '/phê duyệt',
+		path: '/ApprovalFlow',
 		icon: <HiOutlineAnnotation />
 	},
 	{
 		key: '',
 		label: 'Yêu cầu phê duyệt',
-		path: '/yêu cầu',
+		path: '/RequestApproval',
 		icon: <HiOutlineCube />
 	},
 ]
