@@ -4,7 +4,7 @@ import { MdDriveFileMove, MdDownload, MdDelete } from "react-icons/md";
 import DeleteFolderModal from "./DeleteFolderModal";
 import CreateFolderModal from "./CreateFolderModal";
 import MoveFolderModal from "./MoveFolderModal";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import ShareFolderModal from "./ShareFolderModal";
 
 export default function ActionModal({ folder, onClose }) {
@@ -14,7 +14,7 @@ export default function ActionModal({ folder, onClose }) {
   const [showMoveModal, setShowMoveModal] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const location = useLocation();
-  const showMoveButton = !location.pathname.includes('/Document');
+  const showMoveButton = !location.pathname.includes("/Document");
 
   const handleOutsideClick = (e) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
@@ -49,8 +49,11 @@ export default function ActionModal({ folder, onClose }) {
       className="absolute top-1 bg-white p-2 border rounded-lg shadow-lg mr-56"
     >
       <div className="flex flex-col mt-2 w-44">
-        <button onClick={openShareModal} className="font-bold py-2 px-4 rounded mb-2 flex">
-          <FaUserPlus fontSize={18} className='mr-2'/> Chia sẻ
+        <button
+          onClick={openShareModal}
+          className="font-bold py-2 px-4 rounded mb-2 flex"
+        >
+          <FaUserPlus fontSize={18} className="mr-2" /> Chia sẻ
         </button>
         {showShareModal && (
           <ShareFolderModal
@@ -76,7 +79,10 @@ export default function ActionModal({ folder, onClose }) {
         <button className="font-bold py-2 px-4 rounded mb-2 flex">
           <MdDownload fontSize={18} className="mr-2" /> Download
         </button>
-        <button onClick={openEditModal} className="font-bold py-2 px-4 rounded mb-2 flex">
+        <button
+          onClick={openEditModal}
+          className="font-bold py-2 px-4 rounded mb-2 flex"
+        >
           <FaPencil fontSize={18} className="mr-2" /> Chỉnh sửa
         </button>
         {showEditModal && (

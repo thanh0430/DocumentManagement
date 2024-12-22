@@ -1,16 +1,15 @@
 import React from "react";
-import UseRequestService from "../hooks/UseRequestService";
-import { showErrorAlert } from "../components/shared/Notification";
-
-const DeleteRequestModal = ({ onClose, requestId }) => {
-  const { deleteRequest } = UseRequestService();
-
+import UseProjectService from "../hooks/UseProjectService";
+import { showAlert, showErrorAlert } from "../components/shared/Notification";
+const DeleteProject = ({ onClose, projectId }) => {
+    const { deleteProject } = UseProjectService();
+console.log("id", projectId)
   const handleDelete = async () => {
     try {
-    await deleteRequest(requestId);     
-      onClose();
+      await deleteProject(projectId);     
+      onClose(); 
     } catch (error) {
-      showErrorAlert(error.message);
+      showErrorAlert(error.message); 
     }
   };
 
@@ -40,4 +39,4 @@ const DeleteRequestModal = ({ onClose, requestId }) => {
   );
 };
 
-export default DeleteRequestModal;
+export default DeleteProject;

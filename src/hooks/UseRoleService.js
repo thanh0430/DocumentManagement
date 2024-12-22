@@ -1,28 +1,27 @@
 import { useEffect, useState } from 'react';
-import FlowService from '../sevices/ApprovalFlow';
+import RoleService  from '../sevices/RoleService';
 import { showAlert, showErrorAlert } from '../components/shared/Notification';
 
-const useFlowService = () => {
-  const [flows, setFlows] = useState([]);
+const UseRoleService = () => {
+  const [roles, setRoles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [message, setMessage] = useState(null);
 
-  const fetchFlows = async () => {
+  const fetchRole = async () => {
     setLoading(true);
     try {
-      const response = await FlowService.getFlow();
-      console.log("Response từ API:", response); 
+      const response = await RoleService.getRoles();
+      console.log("Response từ API:", response); // Log toàn bộ response
   
       if (response.statusCode === 200) {
-        setFlows(response.data);
-
-        console.log("Dữ liệu lưu vào flows:", response.data); 
+        setRoles(response.data);
+        console.log("Dữ liệu lưu vào flows:", response.data); // Log dữ liệu được lưu
       } else {
         setError(new Error(response.message)); 
       }
     } catch (error) {
-      console.error("Error fetching flows:", error); 
+      console.error("Error fetching flows:", error); // Log lỗi nếu có
       setError(error);
     } finally {
       setLoading(false);
@@ -30,19 +29,19 @@ const useFlowService = () => {
   };
   
   useEffect(() => {
-    fetchFlows();
+    fetchRole();
   }, []);
 
-  const createFlow = async (newFlow) => {
+  const createRole = async (newRoles) => {
     setLoading(true);
     setError(null);
     try {
-      const result = await FlowService.createFlow(newFlow);
+      const result = await RoleService.createRoles(newRoles);
       if (result.statusCode === 201) {
         showAlert(result.message);
-        fetchFlows();
+        fetchRole();
       } else {
-         showErrorAlert(result.message)
+        showErrorAlert(result.message)
       }
     } catch (err) {
       setError(new Error('An unexpected error occurred'));
@@ -50,15 +49,13 @@ const useFlowService = () => {
       setLoading(false);
     }
   };
-
-  const deleteFlow = async (flowId) => {
+  const deleteRole = async (roleId) => {
     setLoading(true);
     try {
-      const result = await FlowService.deleteFlow(flowId);
+      const result = await RoleService.deleteRoles(roleId);
       if (result.statusCode === 204) {
-        showAlert(result.message);
-      
-        fetchFlows(); 
+        showAlert(result.message);    
+        fetchRole(); 
       } else {
         showErrorAlert(result.message)
       }
@@ -70,14 +67,14 @@ const useFlowService = () => {
   };
 
   // Hàm chỉnh sửa luồng phê duyệt
-  const updateFlow = async (flowId,newFlow) => {
+  const updateRole= async (roleId,newRoles) => {
     setLoading(true);
     try {
-      const result = await FlowService.editFlow(flowId,newFlow);
+      const result = await RoleService.editRoles(roleId,newRoles);
       if (result.statusCode === 204) {
         showAlert(result.message);
         console.log("message", result.message); // Log dữ liệu được lưu
-        fetchFlows(); 
+        fetchRole(); 
       } else {
         showErrorAlert(result.message)
         console.log("message", result.message); // Log dữ liệu được lưu
@@ -91,8 +88,8 @@ const useFlowService = () => {
   };
 
   return {
-    flows,loading,error,message,fetchFlows,createFlow,deleteFlow,updateFlow
+    roles,loading,error,message,fetchRole,createRole,deleteRole,updateRole
   };
 };
 
-export default useFlowService;
+export default UseRoleService;

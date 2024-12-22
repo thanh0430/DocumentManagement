@@ -72,13 +72,13 @@ const FolderPage = () => {
             </div>
             <button
               onClick={handleSearch}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md h-10"
+              className="bg-green-500 text-white px-4 py-2 rounded-lg"
             >
               Tìm kiếm
             </button>
             <button
               onClick={openAddModal}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md h-10"
+              className="bg-green-500 text-white px-4 py-2 rounded-lg"
             >
               Tạo thư mục
             </button>
@@ -91,20 +91,20 @@ const FolderPage = () => {
               />
             )}
           </div>
-          <div className="border-gray-200 shadow mt-3">
-            <table className="divide-y">
-              <thead>
-                <tr>
-                  <th className="px-6 py-2 text-xs text-gray-500 w-96 text-left">
+          <div className="border-gray-100">
+            <table className="min-w-full text-sm text-left text-gray-500">
+              <thead className="bg-gray-200">
+                <tr className="text-base">
+                  <th className="px-6 py-2 font-medium text-gray-700 w-96 text-left">
                     Tên thư mục
                   </th>
-                  <th className="p-2 px-6 py-2 text-xs text-gray-500 w-80 text-left">
+                  <th className="p-2 px-6 py-2 font-medium text-gray-700 w-80 text-left">
                     Người Tạo
                   </th>
-                  <th className="p-2 px-6 py-2 text-xs text-gray-500 w-60 text-left">
+                  <th className="p-2 px-6 py-2 font-medium text-gray-700 w-60 text-left">
                     Ngày Tạo
                   </th>
-                  <th className="p-2 px-6 py-2 text-xs text-gray-500 w-60">
+                  <th className="p-2 px-6 py-2 font-medium text-gray-700 w-60">
                     Action
                   </th>
                 </tr>

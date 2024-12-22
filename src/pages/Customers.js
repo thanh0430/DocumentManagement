@@ -1,67 +1,47 @@
-import { useState, useEffect, useMemo } from "react";
-import CreateFlowModal from "../modals/CreateFlowModal";
+import React, { useState, useEffect, useMemo } from "react";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import DeleteFlowModal from "../modals/DeleteFlowModal";
-import useFlowService from "../hooks/useFlowService";
+import CreateCustmes from "../modals/CreateCustmes";
+import UseCustomerService from "../hooks/UseCustomerService";
+import DeleteCustomer from "../modals/DeleteCustomer";
 
-const ApprovalFlow = () => {
-  const { flows, loading, error } = useFlowService();
-  const [filteredFlows, setFilteredFlows] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
+export default function Customers() {
+  const { customers, loading, error } = UseCustomerService();
   const [showModal, setShowModal] = useState(false);
   const [isAdding, setIsAdding] = useState(true);
+  const [currentCustomer, setCurrentCustomer] = useState(null);
   const [showModalDelete, setShowModalDelete] = useState(false);
-  const [currentFlow, setCurrentFlow] = useState(null);
-  const [currentFlowId, setCurrentFlowId] = useState(null);
+  const [currentCustomerId, setCurrentCustomerId] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-
-  useEffect(() => {
-    setFilteredFlows(flows);
-    console.log("Updated Flows:", flows);
-  }, [flows]);
 
   const openAddModal = () => {
     setShowModal(true);
     setIsAdding(true);
-    setCurrentFlow(null);
+    setCurrentCustomer(null); // Reset current customer khi thêm mới
   };
 
-  const openEdit = (flow) => {
+  const openEdit = (customer) => {
     setShowModal(true);
     setIsAdding(false);
-    setCurrentFlow(flow);
+    setCurrentCustomer(customer); // Đặt customer hiện tại cho chỉnh sửa
   };
 
-  const openDelete = (flowId) => {
-    setCurrentFlowId(flowId);
+  const openDelete = (customerId) => {
+    setCurrentCustomerId(customerId);
     setShowModalDelete(true);
   };
 
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    if (value === "") {
-      setFilteredFlows(flows);
-    } else {
-      setFilteredFlows(
-        flows.filter((flow) =>
-          flow.name.toLowerCase().includes(value.toLowerCase())
-        )
-      );
-    }
-  };
+  // Tính toán tổng số khách hàng để phân trang
+  const totalCustomers = customers.length;
+  const totalPages = Math.ceil(totalCustomers / itemsPerPage);
 
-  const totalRequests = filteredFlows.length;
-  const totalPages = Math.ceil(totalRequests / itemsPerPage);
-
-  // Lọc các yêu cầu dựa trên trang hiện tại
-  const currentRequests = useMemo(() => {
+  // Lọc các khách hàng dựa trên trang hiện tại
+  const currentCustomers = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return filteredFlows.slice(startIndex, endIndex);
-  }, [filteredFlows, currentPage]);
+    return customers.slice(startIndex, endIndex);
+  }, [customers, currentPage]);
 
   const handlePageChange = (page) => {
     if (page > 0 && page <= totalPages) {
@@ -74,83 +54,83 @@ const ApprovalFlow = () => {
 
   return (
     <div className="relative overflow-x-auto p-5 bg-gray-100 rounded-lg shadow-lg">
-      {/* Thống kê sản phẩm */}
-      <div className="bg-blue-100 p-4 mb-6 rounded-lg shadow-lg">
-        <h2 className="text-lg font-bold">Thống kê luồng</h2>
-        <p>Tổng số luồng hiện tại: {filteredFlows.length}</p>
-      </div>
-
-      <div className="flex flex-wrap items-center justify-between mb-5">
-        {/* Bộ lọc sản phẩm */}
-        <div className="w-full md:w-1/2 flex items-center mb-4 md:mb-0">
-          <input
-            type="text"
-            id="simple-search"
-            className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
-            placeholder="Tìm kiếm luồng..."
-            value={searchTerm}
-            onChange={handleSearch}
-          />
+      <div className="flex float-end">
+        <form className="flex items-center max-w-sm mr-auto mb-5">
+          <label htmlFor="simple-search" className="sr-only">Search</label>
+          <div className="relative w-full">
+            <input
+              type="text"
+              id="simple-search"
+              className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+              placeholder="Tìm kiếm..."
+              required
+            />
+          </div>
           <button
-            onClick={() => setSearchTerm("") || setFilteredFlows(flows)}
-            className="p-2.5 ms-2 text-sm font-medium text-white bg-slate-600 rounded-lg border border-indigo-500 hover:bg-sky-600 focus:ring-4 focus:outline-none focus:ring-red-300 w-40"
+            type="submit"
+            className="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
           >
-            tìm kiếm
+            <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+            </svg>
+            <span className="sr-only">Search</span>
           </button>
-        </div>
-        {/* Nút thêm luồng */}
-        <div className="float-end">
+        </form>
+        <div className="float-end mb-5 mr-5 ml-10">
           <button
-            onClick={openAddModal}
+            onClick={openAddModal} // Mở modal thêm mới
             className="bg-green-500 text-white px-4 py-2 rounded-lg"
           >
-            Thêm luồng
+            Thêm nhân viên
           </button>
           {showModal && (
-            <CreateFlowModal
+            <CreateCustmes
               onClose={() => setShowModal(false)}
               isAdding={isAdding}
-              setIsAdding={setIsAdding}
-              Flows={currentFlow}
+              customer={currentCustomer} // Truyền customer hiện tại vào modal
             />
           )}
           {showModalDelete && (
-            <DeleteFlowModal
+            <DeleteCustomer
               onClose={() => setShowModalDelete(false)}
-              flowId={currentFlowId}
+              customerId={currentCustomerId}
             />
           )}
         </div>
       </div>
 
-      {/* Danh sách sản phẩm dưới dạng bảng */}
+      {/* Bảng danh sách nhân viên */}
       <table className="min-w-full text-sm text-left text-gray-500">
         <thead className="bg-gray-200">
           <tr className="border-b text-base">
-            <th scope="col" className="px-6 py-3 font-medium text-gray-700">
-              Tên luồng
-            </th>
-            <th scope="col" className="px-6 py-3 font-medium text-gray-700">
-              Ngày tạo
-            </th>
-            <th scope="col" className="px-6 py-3 font-medium text-gray-700">
-              Action
-            </th>
+            <th className="px-6 py-3 font-medium text-gray-700">ID</th>
+            <th className="px-6 py-3 font-medium text-gray-700">Họ</th>
+            <th className="px-6 py-3 font-medium text-gray-700">Tên</th>
+            <th className="px-6 py-3 font-medium text-gray-700">Địa Chỉ</th>
+            <th className="px-6 py-3 font-medium text-gray-700">Email</th>
+            <th className="px-6 py-3 font-medium text-gray-700">Giới tính</th>
+            <th className="px-6 py-3 font-medium text-gray-700">Phân quyền</th>
+            <th className="px-6 py-3 font-medium text-gray-700">Phòng ban</th>
+            <th className="px-6 py-3 font-medium text-gray-700">Action</th>
           </tr>
         </thead>
         <tbody>
-          {currentRequests.length > 0 ? (
-            currentRequests.map((flow) => (
-              <tr key={flow.id} className="bg-white border-b text-gray-900">
-                <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                  {flow.name}
-                </td>
-                <td className="px-6 py-4">{flow.createdDate.slice(0, 10)}</td>
+          {currentCustomers.length > 0 ? (
+            currentCustomers.map((customer) => (
+              <tr key={customer.id} className="bg-white border-b text-gray-900">
+                <td className="px-6 py-4 font-medium text-gray-900">{customer.id}</td>
+                <td className="px-6 py-4">{customer.firstName}</td>
+                <td className="px-6 py-4">{customer.lastName}</td>
+                <td className="px-6 py-4">{customer.address}</td>
+                <td className="px-6 py-4">{customer.email}</td>
+                <td className="px-6 py-4">{customer.gender}</td>
+                <td className="px-6 py-4">{customer.roleName}</td>
+                <td className="px-6 py-4">{customer.departmentName}</td>
                 <td className="px-6 py-4">
-                  <button className="mr-7" onClick={() => openEdit(flow)}>
+                  <button className="mr-7" onClick={() => openEdit(customer)}>
                     <GrEdit fontSize={20} />
                   </button>
-                  <button onClick={() => openDelete(flow.id)}>
+                  <button onClick={() => openDelete(customer.id)}>
                     <RiDeleteBin6Line fontSize={20} />
                   </button>
                 </td>
@@ -158,9 +138,7 @@ const ApprovalFlow = () => {
             ))
           ) : (
             <tr>
-              <td colSpan="3" className="text-center">
-                Không có dữ liệu
-              </td>
+              <td colSpan="9" className="text-center">Không có dữ liệu</td>
             </tr>
           )}
         </tbody>
@@ -175,8 +153,8 @@ const ApprovalFlow = () => {
 
           <p className="text-gray-500 mt-4 lg:mt-0">
             Showing {(currentPage - 1) * itemsPerPage + 1} to{" "}
-            {Math.min(currentPage * itemsPerPage, totalRequests)} of{" "}
-            {totalRequests} entries
+            {Math.min(currentPage * itemsPerPage, totalCustomers)} of{" "}
+            {totalCustomers} entries
           </p>
         </div>
 
@@ -243,6 +221,4 @@ const ApprovalFlow = () => {
       </div>
     </div>
   );
-};
-
-export default ApprovalFlow;
+}

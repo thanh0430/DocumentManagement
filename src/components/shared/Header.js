@@ -5,11 +5,23 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 import Breadcrumb from './Breadcrumb'; 
 import { DASHBOARD_SIDEBAR_LINKS } from '../../lib';
+import { Link } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 
 const getBreadcrumbItems = (path, links) => {
+  const token = localStorage.getItem("token");
   const pathSegments = path.split('/').filter(segment => segment);
   const items = [];
-
+  let userId;
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      userId = decodedToken.userId;
+      console.log("userId", userId);
+    } catch (error) {
+      console.error("Lỗi khi giải mã token:", error.message);
+    }
+  }
   pathSegments.reduce((prevPath, segment) => {
     const currentPath = `${prevPath}/${segment}`;
     const link = links.find(link => link.path === currentPath);
@@ -28,6 +40,18 @@ export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const breadcrumbItems = getBreadcrumbItems(location.pathname, DASHBOARD_SIDEBAR_LINKS);
+  const token = localStorage.getItem("token");
+  let userId = "";
+
+  // Lấy userId từ token
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      userId = decodedToken.userId;
+    } catch (error) {
+      console.error("Lỗi khi giải mã token:", error.message);
+    }
+  }
 
   return (
     <div className="bg-white h-16 px-4 flex items-center border-b border-gray-200 justify-between">
@@ -51,23 +75,27 @@ export default function Header() {
             <Menu.Items className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-sm shadow-md p-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               <Menu.Item>
                 {({ active }) => (
-                  <div
-                    onClick={() => navigate('/settings')}
+                  <Link
+                    to={`/AccountDetail/${userId}`}
                     className={classNames(
                       active && 'bg-gray-100',
-                      'active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200'
+                      'block px-4 py-2 text-gray-700 rounded-sm cursor-pointer'
                     )}
                   >
                     Thông tin tài khoản
-                  </div>
+                  </Link>
                 )}
               </Menu.Item>
               <Menu.Item>
                 {({ active }) => (
                   <div
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      navigate("/login");
+                    }}
                     className={classNames(
                       active && 'bg-gray-100',
-                      'active:bg-gray-200 rounded-sm px-4 py-2 text-gray-700 cursor-pointer focus:bg-gray-200'
+                      'block px-4 py-2 text-gray-700 rounded-sm cursor-pointer'
                     )}
                   >
                     Đăng xuất

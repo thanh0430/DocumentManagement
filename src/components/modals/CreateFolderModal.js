@@ -43,7 +43,7 @@ export default function CreateFolderModal({ onClose, isAdding, folder }) {
       const result = await editFolder(folder.id, inputValue.name, currentUserId);
       if (result.statusCode === 204) {
         showAlert(result.message);
-        onClose(); // Close the modal after successful update
+        onClose(); 
       } else {
         showErrorAlert(result.message);
       }

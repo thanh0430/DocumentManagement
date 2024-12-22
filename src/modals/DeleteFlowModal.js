@@ -1,23 +1,37 @@
 import React from "react";
-const DeleteFlowModal = ({ onClose }) => {
+import useFlowService from "../hooks/useFlowService";
+import { showAlert, showErrorAlert } from "../components/shared/Notification";
+
+const DeleteFlowModal = ({ onClose, flowId }) => {
+  const { deleteFlow } = useFlowService();
+
+  const handleDelete = async () => {
+    try {
+    await deleteFlow(flowId);    
+    onClose(); 
+    } catch (error) {
+      showErrorAlert(error.message); 
+    }
+  };
+
   return (
     <div className="justify-center items-center flex fixed inset-0 bg-opacity-30 backdrop-blur-sm ">
       <div className="border rounded-lg border-gray-300 p-4 bg-white">
-        <form className="w-96 max-w-lg">
-          <p className="text-red-500 mt-3 font-normal text-lg pb-14 text-center">
+        <div className="text-left">          
+          <p className="text-red-500 mt-3 font-normal text-lg">
             Bạn có chắc chắn muốn xóa ?{" "}
           </p>
-          <div className="flex float-end ">
-            <div>
-              <button
-                onClick={onClose}
-                className="bg-muted text-muted-foreground px-4 py-2 rounded-md bg-gray-300 text-white mr-4 hover:bg-gray-400"
-              >
-                Hủy
-              </button>
-            </div>
-            <button className="bg-primary text-primary-foreground px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700">
-             Xóa
+        </div>
+        <form className="w-96 ">
+          <div className="flex justify-end mt-28">
+            <button
+               onClick={onClose}
+              className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded  h-10 mr-5 w-20"
+            >
+              Hủy
+            </button>
+            <button  onClick={handleDelete} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md h-10 w-24">
+              OK
             </button>
           </div>
         </form>

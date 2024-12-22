@@ -18,13 +18,13 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 	{
 		key: '',
 		label: 'Quản lý chức vụ',
-		path: '/chucvu',
+		path: '/Role',
 		icon: <HiUserGroup />
 	},
 	{
 		key: 'customers',
 		label: 'Quản lý nhân viên',
-		path: '/customers',
+		path: '/Customers',
 		icon: <HiOutlineUsers />
 	},
 	{
@@ -43,6 +43,24 @@ export const DASHBOARD_SIDEBAR_LINKS = [
 		key: '',
 		label: 'Yêu cầu phê duyệt',
 		path: '/RequestApproval',
+		icon: <HiOutlineCube />
+	},
+	{
+		key: '',
+		label: 'Project',
+		path: '/Project',
+		icon: <HiOutlineCube />
+	},
+	{
+		key: '',
+		label: 'Time sheet',
+		path: '/workLog',
+		icon: <HiOutlineCube />
+	},
+	{
+		key: '',
+		label: 'Báo cáo',
+		path: '/Report',
 		icon: <HiOutlineCube />
 	},
 ]

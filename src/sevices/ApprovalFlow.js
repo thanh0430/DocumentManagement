@@ -1,11 +1,10 @@
 import axios from "axios";
-const baseURL = 'https://localhost:7091/api';
-
+const baseURL = 'https://localhost:44335/api';
 const axiosInstance = axios.create({
     baseURL,
-  timeout: 5000, // Timeout sau 5 giây
-  headers: {
-    "Content-Type": "application/json",
+    timeout: 5000, // Timeout sau 5 giây
+    headers: {
+      "Content-Type": "application/json",
   },
 });
 
@@ -28,8 +27,8 @@ const FlowService = {
       return response.data;
     },
     editFlow: async (flowId,newFlow) => {
-        const response = await axiosInstance.put(`/ApprovalFlow/${flowId}`,newFlow);
-        return response.data;
+      const response = await axiosInstance.put(`/ApprovalFlow/${flowId}`, newFlow);
+      return response.data;    
       },
   };
   

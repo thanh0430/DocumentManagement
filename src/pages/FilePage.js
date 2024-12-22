@@ -9,11 +9,14 @@ import CreateFileModal from "../components/modals/CreateFileModal";
 import { IoMdCloudUpload } from "react-icons/io";
 
 const FilePage = () => {
-  const currentUserId =1;
+  const currentUserId = 1;
   const { folderId } = useParams();
-  const { files, loading, error,fetchFiles } = useFileService(folderId, currentUserId);
+  const { files, loading, error, fetchFiles } = useFileService(
+    folderId,
+    currentUserId
+  );
   const [showModal, setShowModal] = useState(false);
- 
+
   const [showActionModal, setShowActionModal] = useState(false);
   const openActionModal = (file) => {
     setShowActionModal(file);
@@ -26,7 +29,7 @@ const FilePage = () => {
   if (error) return <p>Error: {error.message}</p>;
 
   return (
-    <div className="container flex mx-auto">
+    <div className="container mx-auto px-4 py-6">
       <div className="flex flex-col">
         <div className="w-full">
           <div className="flex justify-end space-x-4 p-2">
@@ -54,15 +57,17 @@ const FilePage = () => {
                 placeholder="Tìm kiếm theo tên file"
               />
             </div>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md h-10">
-              Tìm kiếm
-            </button>
-            <button
-              onClick={openAddModal}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md h-10 flex"
-            >
-              Tải tệp <IoMdCloudUpload fontSize={18} className="m-1"/>
-            </button>
+            <div className="flex space-x-3">
+              <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-semibold">
+                Tìm kiếm
+              </button>
+              <button
+                onClick={openAddModal}
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md flex items-center text-sm font-semibold"
+              >
+                Tải tệp <IoMdCloudUpload className="ml-2" />
+              </button>
+            </div>
             {showModal && (
               <CreateFileModal
                 onClose={() => setShowModal(false)}
@@ -70,23 +75,23 @@ const FilePage = () => {
               />
             )}
           </div>
-          <div className="border-gray-200 shadow mt-3">
-            <table className="divide-y">
-              <thead>
-                <tr>
-                  <th className="px-6 py-2 text-xs text-gray-500 w-96 text-left">
+          <div className="text-xs text-gray-700 uppercase bg-gray-100">
+            <table className="min-w-full text-sm text-left text-gray-500">
+              <thead className="bg-gray-200">
+                <tr className="text-base">
+                  <th className="px-6 py-3 font-medium text-gray-700">
                     Tên file
                   </th>
-                  <th className="p-2 px-6 py-2 text-xs text-gray-500 w-80 text-left">
+                  <th className="px-6 py-3 font-medium text-gray-700">
                     Người Tạo
                   </th>
-                  <th className="p-2 px-6 py-2 text-xs text-gray-500 w-60 text-left">
+                  <th className="px-6 py-3 font-medium text-gray-700">
                     Ngày Tạo
                   </th>
-                  <th className="p-2 px-6 py-2 text-xs text-gray-500 w-60 text-left">
+                  <th className="px-6 py-3 font-medium text-gray-700">
                     Dung lượng
                   </th>
-                  <th className="p-2 px-6 py-2 text-xs text-gray-500 w-60">
+                  <th className="px-6 py-3 font-medium text-gray-700">
                     Action
                   </th>
                 </tr>
@@ -99,13 +104,17 @@ const FilePage = () => {
                       <div className="ml-5">{file.name}</div>
                     </td>
                     <td className="p-2 px-6 py-4">
-                      <div className="text-sm text-gray-900">{file.userName}</div>
+                      <div className="text-sm text-gray-900">
+                        {file.userName}
+                      </div>
                     </td>
                     <td className="p-2 px-6 py-4">
-                      <div className="text-sm text-gray-900">{file.createdDate.slice(0, 10)}</div>
+                      <div className="text-sm text-gray-900">
+                        {file.createdDate.slice(0, 10)}
+                      </div>
                     </td>
                     <td className="p-2 px-6 py-4">
-                    {file.fileSize.toFixed(2)} MB
+                      {file.fileSize.toFixed(2)} MB
                     </td>
                     <td className="p-2 px-6 py-4">
                       <div className="text-sm text-gray-900 flex justify-center items-center relative">
